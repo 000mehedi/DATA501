@@ -98,7 +98,7 @@ expanded_features = [
     "Dissolved_Oxygen_mg_L",
     "pH_Level",
     "Nutrient_Level_ppm",
-    "Marine_Biodiversity_Score",  # Include bioscore
+    "Sargassum_Health_Index",
     "Temp_DO_Interaction",
     "pH_Nutrient_Interaction",
     "Temp_Squared",
@@ -195,7 +195,7 @@ plt.xlabel("Predicted Label")
 plt.ylabel("True Label")
 plt.title(f"Confusion Matrix - {best_model_name} (Accuracy: {best_model_acc:.4f})")
 plt.tight_layout()
-plt.savefig("best_model_confusion_matrix.png")
+plt.savefig("MBS_best_model_confusion_matrix.png")
 plt.show()
 
 if not isinstance(best_model, RandomForestClassifier):
@@ -230,9 +230,11 @@ if isinstance(best_model, RandomForestClassifier):
         range(len(feature_names)), [feature_names[i] for i in rf_indices], rotation=90
     )
     plt.tight_layout()
-    plt.savefig("rf_feature_importances.png")
+    plt.savefig("MBS_rf_feature_importances.png")
     plt.show()
 
 print("\nAnalysis complete! The best model has been identified and visualized.")
-joblib.dump(best_model, f"sargassum_health_best_model.pkl")
-print(f"Best model saved as 'sargassum_health_best_model.pkl'")
+# Save the best model
+joblib.dump(best_model, f"marine_biodiversity_best_model.pkl")
+print(f"Best model saved as 'marine_biodiversity_best_model.pkl'")
+model = joblib.load("marine_biodiversity_best_model.pkl")
