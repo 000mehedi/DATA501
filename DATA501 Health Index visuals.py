@@ -30,33 +30,7 @@ data["Health_Category"] = pd.cut(
 )
 
 
-print(data["Health_Category"].value_counts())
-
-sns.histplot(
-    data["Sargassum_Health_Index"], bins=20, kde=True, color="blue", edgecolor="black"
-)
-plt.title("Distribution of Sargassum Health Index", fontsize=16)
-plt.xlabel("Sargassum Health Index", fontsize=12)
-plt.ylabel("Frequency", fontsize=12)
-plt.show()
-
-stats.probplot(data["Sargassum_Health_Index"], dist="norm", plot=plt)
-plt.title("Q-Q Plot")
-plt.show()
-
-stat, p = shapiro(data["Sargassum_Health_Index"])
-print(f"Shapiro-Wilk Test: statistic={stat:.4f}, p-value={p:.4f}")
-
-# List of columns
-col_needed = [
-    "Sargassum_Health_Index",
-    "Marine_Biodiversity_Score",
-    "Water_Temperature_C",
-    "Dissolved_Oxygen_mg_L",
-    "pH_Level",
-    "Nutrient_Level_ppm",
-]
-
+### Histograms #############################################################################
 # Grid setup
 n_cols = 3
 n_rows = (len(col_needed) + n_cols - 1) // n_cols
@@ -179,27 +153,6 @@ plt.title("Correlation Matrix of Environmental & Health Variables", fontsize=16)
 plt.savefig("Correlation Matrix of Environmental & Health Variables.png")
 plt.show()
 
-# KMeans Clustering ###############################################################
-# Standardize the data
-scaler = StandardScaler()
-scaled_data = scaler.fit_transform(numeric_data)
-
-KMeans_model = KMeans(n_clusters=3, random_state=42)
-KMeans_model.fit(scaled_data)
-
-sns.pairplot(data, hue="Health_Category", palette="Set2")
-plt.suptitle("Pairplot of Environmental & Health Variables", fontsize=18, y=1.02)
-plt.show()
-
-
-### Line Graph ###############################################################
-col_needed = ["timestamp", "Sargassum_Health_Index", "Marine_Biodiversity_Score"]
-data_line = pd.read_csv("UP-5_Impact_Modeling_SynData.csv", usecols=col_needed)
-data_line["timestamp"] = pd.to_datetime(data_line["timestamp"])
-
-df_line_daily = data_line.groupby(data_line["timestamp"].dt.date).sum()
-print(df_line_daily)
-
 ### Line Graph ###############################################################
 col_needed = ["Timestamp", "Sargassum_Health_Index", "Marine_Biodiversity_Score"]
 data_line = pd.read_csv("UP-5_Impact_Modeling_SynData.csv", usecols=col_needed)
@@ -209,21 +162,11 @@ data_line.set_index("Timestamp", inplace=True)
 df_line_daily = data_line.resample("2H").mean()
 
 plt.figure(figsize=(12, 6))
-sns.lineplot(
-    x=df_line_daily.index,
-    y=df_line_daily["Sargassum_Health_Index"],
-    label="Sargassum Health Index",
-)
-sns.lineplot(
-    x=df_line_daily.index,
-    y=df_line_daily["Marine_Biodiversity_Score"],
-    label="Biodiversity Score",
-)
-plt.title("1-Hour Averages: Sargassum Health & Biodiversity")
+sns.lineplot(df_line_daily)
+plt.title("2-Hour Averages: Sargassum Health & Biodiversity")
 plt.xlabel("Timestamp")
 plt.ylabel("Average Score")
 plt.xticks(rotation=45)
 plt.grid(True)
-plt.tight_layout()
-plt.legend()
+plt.savefig("2_Hour Averages Sargassum Health & Biodiversity.png")
 plt.show()
