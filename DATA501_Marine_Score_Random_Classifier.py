@@ -181,15 +181,15 @@ print(f"\n=== BEST MODEL: {best_model_name} with accuracy {best_model_acc:.4f} =
 print("\nClassification Report:")
 print(classification_report(best_y_test, best_y_pred))
 
-cm = confusion_matrix(best_y_test, best_y_pred)
+cm = confusion_matrix(best_y_test, best_y_pred, labels=labels_biodiversity)
 plt.figure(figsize=(8, 6))
 sns.heatmap(
     cm,
     annot=True,
     fmt="d",
     cmap="Blues",
-    xticklabels=reversed_labels,
-    yticklabels=reversed_labels,
+    xticklabels=labels_biodiversity,
+    yticklabels=labels_biodiversity,
 )
 plt.xlabel("Predicted Label")
 plt.ylabel("True Label")
