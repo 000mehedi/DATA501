@@ -147,6 +147,7 @@ sns.barplot(x=feature_importance, y=feature_importance.index, palette="Blues_r")
 plt.xlabel("Feature Importance Score")
 plt.ylabel("Features")
 plt.title("Feature Importance in Optimized Decision Tree")
+plt.subplots_adjust(left=0.3)
 plt.savefig("MBS_Feature_Importance_in_Optimized_Decision_Tree.png")
 plt.show()
 
