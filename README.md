@@ -3,4 +3,4 @@ This repository contains the dataset, relevant EDA diagrams and python codes of 
 
 To run the python files, simply run:
 
-python <filename>.py
+python filename.py
