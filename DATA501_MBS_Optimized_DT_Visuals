@@ -136,6 +136,20 @@ plt.tight_layout()
 plt.savefig("MBS_optimized_decision_tree_cm.png")
 plt.show()
 
+# Get feature importance from the best decision tree model
+feature_importance = pd.Series(
+    best_clf.feature_importances_, index=feature_col
+).sort_values(ascending=False)
+
+# Plot feature importance
+plt.figure(figsize=(8, 5))
+sns.barplot(x=feature_importance, y=feature_importance.index, palette="Blues_r")
+plt.xlabel("Feature Importance Score")
+plt.ylabel("Features")
+plt.title("Feature Importance in Optimized Decision Tree")
+plt.savefig("MBS_Feature_Importance_in_Optimized_Decision_Tree.png")
+plt.show()
+
 # Generate detailed classification report for best model
 print("\nClassification Report:")
 print(
